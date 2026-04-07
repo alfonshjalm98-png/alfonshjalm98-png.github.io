@@ -4102,7 +4102,6 @@ let notifPermission = Notification.permission;
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
-      swRegistration = await navigator.serviceWorker.register('./sw.js');
       console.log('SW registered');
       
       // Show notif bar if not yet decided
