@@ -1,0 +1,9 @@
+{
+  "name": "Alfons OS",
+  "short_name": "AlfonsOS",
+  "start_url": "/alfons-os/",
+  "display": "standalone",
+  "background_color": "#070b14",
+  "theme_color": "#4a9eff",
+  "icons": []
+}
