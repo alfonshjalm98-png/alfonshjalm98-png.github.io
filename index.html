@@ -57,18 +57,19 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Spara data
   window.sparaData = async function(samling, id, data) {
     await setDoc(doc(db, samling, id), data);
     console.log("Sparat!");
   };
 
-  // Hämta data
   window.hamtaData = async function(samling, id) {
     const snap = await getDoc(doc(db, samling, id));
     if (snap.exists()) return snap.data();
     return null;
   };
+
+  window._firebaseRedo = true;
+  console.log("Firebase laddat!");
 </script>
   body {
     background: var(--bg);
