@@ -1031,6 +1031,183 @@
         </div>
       </div>
     </div>
+    <!-- =========== KALORIKALKYLATOR =========== -->
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">KALORIKALKYLATOR</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div><div class="mini-label">VIKT (KG)</div><input type="number" id="kk-vikt" placeholder="80" min="40" max="200" step="0.5" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"></div>
+        <div><div class="mini-label">LÄNGD (CM)</div><input type="number" id="kk-langd" placeholder="180" min="140" max="220" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"></div>
+        <div><div class="mini-label">ÅLDER</div><input type="number" id="kk-alder" placeholder="28" min="15" max="80" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"></div>
+        <div><div class="mini-label">KÖN</div><select id="kk-kon" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"><option value="m">Man</option><option value="f">Kvinna</option></select></div>
+      </div>
+      <div style="margin-bottom:12px;"><div class="mini-label">AKTIVITETSNIVÅ</div><select id="kk-akt" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"><option value="1.2">Stillasittande</option><option value="1.375">Lätt aktiv (1–3 dagar/vecka)</option><option value="1.55" selected>Måttligt aktiv (3–5 dagar/vecka)</option><option value="1.725">Mycket aktiv (6–7 dagar/vecka)</option><option value="1.9">Extremt aktiv</option></select></div>
+      <div style="margin-bottom:16px;"><div class="mini-label">MÅL</div><select id="kk-mal" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"><option value="-500">Bränna fett aggressivt (–500 kcal)</option><option value="-250">Bränna fett lätt (–250 kcal)</option><option value="0">Underhålla</option><option value="250" selected>Bygga muskler (+250 kcal)</option><option value="500">Bygga muskler aggressivt (+500 kcal)</option></select></div>
+      <div class="macro-grid" id="kk-resultat" style="display:none;">
+        <div class="macro-item"><div class="macro-value" id="kk-kcal">—</div><div class="macro-label">kcal</div></div>
+        <div class="macro-item"><div class="macro-value" id="kk-prot" style="color:var(--accent3)">—</div><div class="macro-label">protein g</div></div>
+        <div class="macro-item"><div class="macro-value" id="kk-kolh" style="color:var(--accent)">—</div><div class="macro-label">kolh g</div></div>
+        <div class="macro-item"><div class="macro-value" id="kk-fett" style="color:#BA7517">—</div><div class="macro-label">fett g</div></div>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-top:8px;" id="kk-bmr-info"></div>
+    </div>
+
+    <!-- =========== PROGRESS GRAF =========== -->
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">PROGRESS — VIKT / KROPPSFETT / BMI</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div><div class="mini-label">LÄNGD (CM)</div><input type="number" id="pg-langd" placeholder="180" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"></div>
+        <div><div class="mini-label">ÅLDER</div><input type="number" id="pg-alder" placeholder="28" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"></div>
+        <div><div class="mini-label">KÖN</div><select id="pg-kon" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"><option value="m">Man</option><option value="f">Kvinna</option></select></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div><div class="mini-label">LOGGA VIKT (KG)</div><input type="number" id="pg-vikt" placeholder="80.5" step="0.1" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"></div>
+        <div style="display:flex;align-items:flex-end;"><button onclick="pgLoggaVecka()" style="width:100%;padding:9px;background:var(--accent);border:none;color:#000;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;">+ LOGGA VECKA</button></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;">
+        <div style="background:var(--surface2);border:1px solid var(--border);padding:10px;text-align:center;"><div class="macro-value" id="pg-s-vikt">—</div><div class="macro-label">kg nu</div></div>
+        <div style="background:var(--surface2);border:1px solid var(--border);padding:10px;text-align:center;"><div class="macro-value" id="pg-s-fett" style="color:#BA7517">—</div><div class="macro-label">% fett</div></div>
+        <div style="background:var(--surface2);border:1px solid var(--border);padding:10px;text-align:center;"><div class="macro-value" id="pg-s-bmi" style="color:var(--accent)">—</div><div class="macro-label">BMI</div></div>
+        <div style="background:var(--surface2);border:1px solid var(--border);padding:10px;text-align:center;"><div class="macro-value" id="pg-s-diff">—</div><div class="macro-label">kg förändring</div></div>
+      </div>
+      <canvas id="pg-graf" height="200"></canvas>
+      <div id="pg-logg" style="max-height:160px;overflow-y:auto;margin-top:12px;"></div>
+      <button onclick="pgRensa()" style="margin-top:10px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:10px;padding:4px 10px;cursor:pointer;letter-spacing:1px;">RENSA DATA</button>
+    </div>
+
+    <script>
+    (function(){
+      var kkInputs = ['kk-vikt','kk-langd','kk-alder','kk-kon','kk-akt','kk-mal'];
+      function kkCalc(){
+        var v=parseFloat(document.getElementById('kk-vikt').value);
+        var l=parseFloat(document.getElementById('kk-langd').value);
+        var a=parseFloat(document.getElementById('kk-alder').value);
+        var kon=document.getElementById('kk-kon').value;
+        var akt=parseFloat(document.getElementById('kk-akt').value);
+        var mal=parseInt(document.getElementById('kk-mal').value);
+        if(!v||!l||!a) return;
+        var bmr = kon==='m' ? 10*v+6.25*l-5*a+5 : 10*v+6.25*l-5*a-161;
+        var tdee = Math.round(bmr*akt);
+        var target = tdee+mal;
+        var prot = Math.round(v*2.2);
+        var fett = Math.round(target*0.25/9);
+        var kolh = Math.round((target-prot*4-fett*9)/4);
+        document.getElementById('kk-resultat').style.display='grid';
+        document.getElementById('kk-kcal').textContent=target;
+        document.getElementById('kk-prot').textContent=prot;
+        document.getElementById('kk-kolh').textContent=kolh>0?kolh:0;
+        document.getElementById('kk-fett').textContent=fett;
+        document.getElementById('kk-bmr-info').textContent='BMR: '+Math.round(bmr)+' kcal  |  TDEE: '+tdee+' kcal';
+      }
+      kkInputs.forEach(function(id){ document.getElementById(id).addEventListener('input',kkCalc); });
+
+      var pgData = JSON.parse(localStorage.getItem('vprog')||'[]');
+      var pgProfil = JSON.parse(localStorage.getItem('vprofil')||'{}');
+      var pgGraf = null;
+
+      function pgSparaProfil(){
+        var l=parseFloat(document.getElementById('pg-langd').value);
+        var a=parseFloat(document.getElementById('pg-alder').value);
+        var k=document.getElementById('pg-kon').value;
+        if(l) pgProfil.langd=l;
+        if(a) pgProfil.alder=a;
+        pgProfil.kon=k;
+        localStorage.setItem('vprofil',JSON.stringify(pgProfil));
+      }
+
+      function pgLaddaProfil(){
+        if(pgProfil.langd) document.getElementById('pg-langd').value=pgProfil.langd;
+        if(pgProfil.alder) document.getElementById('pg-alder').value=pgProfil.alder;
+        if(pgProfil.kon) document.getElementById('pg-kon').value=pgProfil.kon;
+      }
+
+      function pgFett(vikt,langd,alder,kon){
+        if(!langd||!alder) return null;
+        var bmi=vikt/((langd/100)*(langd/100));
+        var f = kon==='m' ? 1.20*bmi+0.23*alder-16.2 : 1.20*bmi+0.23*alder-5.4;
+        return Math.max(3,Math.min(50,f));
+      }
+
+      function pgBMI(vikt,langd){ if(!langd) return null; return vikt/((langd/100)*(langd/100)); }
+
+      function pgBMILabel(bmi){
+        if(bmi<18.5) return {t:'Undervikt',c:'var(--accent)'};
+        if(bmi<25)   return {t:'Normalvikt',c:'var(--accent3)'};
+        if(bmi<30)   return {t:'Övervikt',c:'#BA7517'};
+        return {t:'Fetma',c:'#E24B4A'};
+      }
+
+      function pgGetVecka(d){ var j=new Date(d.getFullYear(),0,1); return Math.ceil((((d-j)/86400000)+j.getDay()+1)/7); }
+
+      window.pgLoggaVecka = function(){
+        pgSparaProfil();
+        var v=parseFloat(document.getElementById('pg-vikt').value);
+        if(!v) return;
+        var l=pgProfil.langd; var a=pgProfil.alder; var k=pgProfil.kon||'m';
+        var fett=pgFett(v,l,a,k); var bmi=pgBMI(v,l);
+        var now=new Date();
+        pgData.push({datum:now.toLocaleDateString('sv-SE'),vecka:'V'+pgGetVecka(now),vikt:v,fett:fett?parseFloat(fett.toFixed(1)):null,bmi:bmi?parseFloat(bmi.toFixed(1)):null});
+        localStorage.setItem('vprog',JSON.stringify(pgData));
+        document.getElementById('pg-vikt').value='';
+        pgRender();
+      };
+
+      window.pgRadera = function(i){ pgData.splice(i,1); localStorage.setItem('vprog',JSON.stringify(pgData)); pgRender(); };
+
+      window.pgRensa = function(){ if(!confirm('Radera all data?')) return; pgData=[]; localStorage.setItem('vprog','[]'); pgRender(); };
+
+      function pgRender(){
+        if(pgData.length===0){
+          ['pg-s-vikt','pg-s-fett','pg-s-bmi','pg-s-diff'].forEach(function(id){document.getElementById(id).textContent='—';});
+          document.getElementById('pg-logg').innerHTML='<div style="font-size:11px;color:var(--muted);padding:8px 0">Ingen data — logga din första vecka</div>';
+          if(pgGraf){pgGraf.destroy();pgGraf=null;} return;
+        }
+        var s=pgData[pgData.length-1]; var f=pgData[0];
+        var diff=(s.vikt-f.vikt).toFixed(1);
+        document.getElementById('pg-s-vikt').textContent=s.vikt.toFixed(1);
+        document.getElementById('pg-s-fett').textContent=s.fett?s.fett.toFixed(1)+'%':'—';
+        var bmiEl=document.getElementById('pg-s-bmi');
+        if(s.bmi){var lb=pgBMILabel(s.bmi);bmiEl.textContent=s.bmi.toFixed(1);bmiEl.style.color=lb.c;}
+        var dEl=document.getElementById('pg-s-diff');
+        dEl.textContent=(diff>0?'+':'')+diff; dEl.style.color=parseFloat(diff)<=0?'var(--accent3)':'#E24B4A';
+        var labels=pgData.map(function(d){return d.vecka;});
+        var vikter=pgData.map(function(d){return d.vikt;});
+        var fetter=pgData.map(function(d){return d.fett;});
+        var bmis=pgData.map(function(d){return d.bmi;});
+        var ctx=document.getElementById('pg-graf').getContext('2d');
+        if(pgGraf) pgGraf.destroy();
+        pgGraf=new Chart(ctx,{data:{labels:labels,datasets:[
+          {type:'line',label:'Vikt (kg)',data:vikter,borderColor:'var(--accent)',backgroundColor:'rgba(0,255,179,0.05)',borderWidth:2,pointRadius:4,tension:0.3,yAxisID:'y'},
+          {type:'line',label:'Kroppsfett (%)',data:fetter,borderColor:'#BA7517',backgroundColor:'rgba(186,117,23,0.05)',borderWidth:2,pointRadius:4,tension:0.3,yAxisID:'y2',borderDash:[5,3]},
+          {type:'line',label:'BMI',data:bmis,borderColor:'var(--accent3)',backgroundColor:'rgba(0,200,255,0.05)',borderWidth:1.5,pointRadius:3,tension:0.3,yAxisID:'y2',borderDash:[2,4]}
+        ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{font:{size:10},color:'var(--muted)',boxWidth:14}}},scales:{y:{position:'left',ticks:{font:{size:10},color:'var(--accent)'},grid:{color:'rgba(255,255,255,0.05)'}},y2:{position:'right',ticks:{font:{size:10},color:'var(--muted)'},grid:{display:false}},x:{ticks:{font:{size:10},color:'var(--muted)'},grid:{color:'rgba(255,255,255,0.04)'}}}}});
+        var logg=document.getElementById('pg-logg');
+        logg.innerHTML=[...pgData].reverse().map(function(d,ri){
+          var i=pgData.length-1-ri;
+          var lb=d.bmi?pgBMILabel(d.bmi):null;
+          return '<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:11px;font-family:\'IBM Plex Mono\',monospace;">'
+            +'<span style="color:var(--muted)">'+d.datum+' '+d.vecka+'</span>'
+            +'<span style="color:var(--accent)">'+d.vikt.toFixed(1)+' kg</span>'
+            +'<span style="color:#BA7517">'+(d.fett?d.fett.toFixed(1)+'%':'—')+'</span>'
+            +'<span style="color:'+(lb?lb.c:'var(--muted)')+'">BMI '+(d.bmi?d.bmi.toFixed(1):'—')+'</span>'
+            +'<button onclick="pgRadera('+i+')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;">✕</button>'
+            +'</div>';
+        }).join('');
+      }
+
+      if(typeof Chart==='undefined'){
+        var s=document.createElement('script');
+        s.src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+        s.onload=function(){ pgLaddaProfil(); pgRender(); };
+        document.head.appendChild(s);
+      } else {
+        pgLaddaProfil(); pgRender();
+      }
+
+      ['pg-langd','pg-alder','pg-kon'].forEach(function(id){
+        document.getElementById(id).addEventListener('change',pgSparaProfil);
+      });
+    })();
+    </script>
   </div>
 </div>
 
