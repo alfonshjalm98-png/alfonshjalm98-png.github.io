@@ -3203,24 +3203,34 @@ function showDietDay(type, btn) {
 }
 
 const EXERCISE_IMGS = {
-  "pushup": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Pushup_ranks.jpg/320px-Pushup_ranks.jpg",
-  "wide_pushup": "https://weighttraining.guide/wp-content/uploads/2016/10/wide-push-up.png",
-  "diamond_pushup": "https://weighttraining.guide/wp-content/uploads/2016/10/diamond-push-up.png",
-  "pike_pushup": "https://weighttraining.guide/wp-content/uploads/2016/10/pike-push-up.png",
-  "decline_pushup": "https://weighttraining.guide/wp-content/uploads/2016/10/decline-push-up.png",
-  "dips": "https://weighttraining.guide/wp-content/uploads/2016/10/triceps-dip.png",
-  "pullup": "https://weighttraining.guide/wp-content/uploads/2016/10/inverted-row.png",
-  "squat": "https://weighttraining.guide/wp-content/uploads/2016/10/bodyweight-squat.png",
-  "lunge": "https://weighttraining.guide/wp-content/uploads/2016/05/walking-lunge.png",
-  "glute_bridge": "https://weighttraining.guide/wp-content/uploads/2016/10/glute-bridge.png",
-  "nordic_curl": "https://weighttraining.guide/wp-content/uploads/2018/07/nordic-hamstring-curl.png",
-  "calf_raise": "https://weighttraining.guide/wp-content/uploads/2016/10/bodyweight-calf-raise.png",
-  "plank": "https://weighttraining.guide/wp-content/uploads/2016/10/plank.png",
-  "hanging_knee": "https://weighttraining.guide/wp-content/uploads/2016/10/hanging-knee-raise.png",
-  "crunch": "https://weighttraining.guide/wp-content/uploads/2016/10/crunch.png",
-  "burpee": "https://weighttraining.guide/wp-content/uploads/2016/10/burpee.png",
-  "mountain_climber": "https://weighttraining.guide/wp-content/uploads/2016/10/mountain-climber.png",
-  "high_knees": "https://weighttraining.guide/wp-content/uploads/2016/10/high-knee-run-in-place.png",
+  "pike_push_up":          "assets/gifs/pike_push_up.gif",
+  "bench_dips":            "assets/gifs/bench_dips.gif",
+  "diamond_push_up":       "assets/gifs/diamond_push_up.gif",
+  "decline_push_up":       "assets/gifs/decline_push_up.gif",
+  "triceps_dips":          "assets/gifs/triceps_dips.gif",
+  "plank_rotation":        "assets/gifs/plank_rotation.gif",
+  "hanging_knee_raise":    "assets/gifs/hanging_knee_raise.gif",
+  "russian_twist":         "assets/gifs/russian_twist.gif",
+  "push_up":               "assets/gifs/push_up.gif",
+  "pseudo_planche_push_up":"assets/gifs/pseudo_planche_push_up.gif",
+  "wide_push_up":          "assets/gifs/wide_push_up.gif",
+  "inverted_row":          "assets/gifs/inverted_row.gif",
+  "pull_up":               "assets/gifs/pull_up.gif",
+  "wide_pull_up":          "assets/gifs/wide_pull_up.gif",
+  "chin_up":               "assets/gifs/chin_up.gif",
+  "towel_row":             "assets/gifs/towel_row.gif",
+  "lateral_raise":         "assets/gifs/lateral_raise.gif",
+  "face_pull":             "assets/gifs/face_pull.gif",
+  "hammer_curl":           "assets/gifs/hammer_curl.gif",
+  "pistol_squat":          "assets/gifs/pistol_squat.gif",
+  "glute_bridge":          "assets/gifs/glute_bridge.gif",
+  "single_leg_calf_raise": "assets/gifs/single_leg_calf_raise.gif",
+  "wall_sit":              "assets/gifs/wall_sit.gif",
+  "nordic_curl":           "assets/gifs/nordic_curl.gif",
+  "squat":                 "assets/gifs/squat.gif",
+  "calf_raise":            "assets/gifs/calf_raise.gif",
+  "walking_lunge":         "assets/gifs/walking_lunge.gif",
+  "front_raise":           "assets/gifs/front_raise.gif"
 };
 
 
@@ -3229,8 +3239,36 @@ const AFFIRMATIONS = ["Jag har positiv inst\u00e4llning varje dag", "Jag tror p\
 
 const FUTURE_GOALS = [{"year": "2025", "goals": ["Sparat ihop 1 miljon innan \u00e5rets slut", "B\u00f6rja investera p\u00e5 egen hand (25% av inkomst)", "Trading som prim\u00e4r inkomst"]}, {"year": "2027", "goals": ["Hitta mentor och f\u00f6rebilder", "Eget f\u00f6retag aktivt", "K\u00e4nd n\u00e4rvaro online"]}, {"year": "2030", "goals": ["Helt egen f\u00f6retagare med nytt liv", "Multi-miljon\u00e4r", "Bo i l\u00e4gre-skattevariant \u2014 Karibien"]}, {"year": "2040", "goals": ["Stort hus med gym, jacuzzi, bastu, spa vid havet med egen brygga", "Dodge Hellcat Demon", "Leva livet som en hj\u00e4lte med fantastisk familj", "L\u00e4mna ett arv till min sl\u00e4kt p\u00e5 ny plats i v\u00e4rlden", "Bok om mitt liv och hur andra vinner sitt"]}];
 
-const HOME_EXERCISES = [{"key": "pushup", "muscle": "BR\u00d6ST + TRICEPS", "gym_eq": "Br\u00f6stmaskin / B\u00e4nkpress", "reps": "6\u201320", "sets": "3\u20134", "tip": "Slow eccentric 3 sek ner = dubbelt sv\u00e5rare"}, {"key": "wide_pushup", "muscle": "YTTRE BR\u00d6ST", "gym_eq": "Cable flyes nedre", "reps": "10\u201315", "sets": "3", "tip": "H\u00e4nderna bredare \u00e4n axlar, armb\u00e5garna ut\u00e5t"}, {"key": "diamond_pushup", "muscle": "INRE BR\u00d6ST + TRI", "gym_eq": "Diamond cable / close bench", "reps": "8\u201315", "sets": "3", "tip": "H\u00e4nderna formar diamant under br\u00f6stet"}, {"key": "pike_pushup", "muscle": "AXLAR", "gym_eq": "Axelpress maskin", "reps": "8\u201312", "sets": "3\u20134", "tip": "H\u00f6fterna h\u00f6gt i V-form, tryck ner som axelpress"}, {"key": "decline_pushup", "muscle": "\u00d6VRE BR\u00d6ST", "gym_eq": "Incline bench / \u00f6vre cable", "reps": "10\u201315", "sets": "3", "tip": "F\u00f6tter p\u00e5 soffa, h\u00e4nder p\u00e5 golvet"}, {"key": "dips", "muscle": "TRICEPS + BR\u00d6ST", "gym_eq": "Dips maskin / st\u00e5ng", "reps": "6\u201312", "sets": "3\u20134", "tip": "H\u00e4nder p\u00e5 stolkant bakom, b\u00f6j 90\u00b0. Luta fram\u00e5t = mer br\u00f6st"}, {"key": "pullup", "muscle": "RYGG + BICEPS", "gym_eq": "Pulldown / Pull-ups", "reps": "6\u201312", "sets": "4", "tip": "Bord-rows: ligg under stabilt bord, dra upp. D\u00f6rram-rows: luta bak\u00e5t, dra in"}, {"key": "squat", "muscle": "QUAD + GLUTES", "gym_eq": "Benpress / Squat", "reps": "15\u201330", "sets": "4", "tip": "Enkelbenssquat (pistol) f\u00f6r max sv\u00e5righet"}, {"key": "lunge", "muscle": "QUAD + GLUTES", "gym_eq": "Utfallssteg", "reps": "12\u201320", "sets": "3", "tip": "20\u201350 meter walking lunges = b\u00e4sta hemma-benet"}, {"key": "glute_bridge", "muscle": "GLUTES + HAMSTR", "gym_eq": "Hip thrusts", "reps": "15\u201325", "sets": "4", "tip": "Enkelbens glute bridge f\u00f6r mer aktivering"}, {"key": "nordic_curl", "muscle": "HAMSTRINGS", "gym_eq": "Hamstring curl", "reps": "5\u201310", "sets": "3", "tip": "Kn\u00e4la, f\u00e4st f\u00f6tter under soffa, s\u00e4nk kontrollerat"}, {"key": "calf_raise", "muscle": "VADER", "gym_eq": "Vader st\u00e5ende", "reps": "20\u201330", "sets": "4", "tip": "En fot i taget p\u00e5 ett trappsteg f\u00f6r full ROM"}, {"key": "plank", "muscle": "CORE / MAGE", "gym_eq": "Planka", "reps": "30\u201390s", "sets": "4", "tip": "Sidoplanka + rotation f\u00f6r mer aktivering"}, {"key": "hanging_knee", "muscle": "MAGE / HIP FLEX", "gym_eq": "Hanging leg raises", "reps": "10\u201315", "sets": "4", "tip": "Raka ben = sv\u00e5rare. Kontrollerat upp OCH ner"}, {"key": "crunch", "muscle": "MAGE", "gym_eq": "Cable crunches", "reps": "15\u201325", "sets": "4", "tip": "Slow tempo. Sp\u00e4nna magen hela r\u00f6relsen"}, {"key": "burpee", "muscle": "CARDIO HELKROPP", "gym_eq": "Cardio intervall", "reps": "4\u00d74min", "sets": "4", "tip": "Halva tiden vila. K\u00f6r tills du smakar blod"}, {"key": "mountain_climber", "muscle": "CORE + CARDIO", "gym_eq": "Intervall / mage", "reps": "30\u201360s", "sets": "4", "tip": "Snabbt = cardio. L\u00e5ngsamt = core"}, {"key": "high_knees", "muscle": "CARDIO + BEN", "gym_eq": "L\u00f6pband intervall", "reps": "4\u00d74min", "sets": "4", "tip": "Kn\u00e4n till h\u00f6fth\u00f6jd. Arm-r\u00f6relse viktig"}];
-
+const HOME_EXERCISES = [
+  {"key": "pike_push_up", "muscle": "AXLAR", "gym_eq": "Axelpress maskin", "reps": "4–6", "sets": "3", "tip": "Höfterna högt i V-form, tryck ner som axelpress"},
+  {"key": "bench_dips", "muscle": "TRICEPS + BRÖST", "gym_eq": "Dips maskin", "reps": "5–8", "sets": "3", "tip": "Händer på stolkant bakom, böj 90°. Luta framåt = mer bröst"},
+  {"key": "diamond_push_up", "muscle": "INRE BRÖST + TRI", "gym_eq": "Diamond cable / close bench", "reps": "5–8", "sets": "3", "tip": "Händerna formar diamant under bröstet"},
+  {"key": "decline_push_up", "muscle": "ÖVRE BRÖST", "gym_eq": "Incline bench / övre cable", "reps": "6–10", "sets": "3", "tip": "Fötter på soffa, händer på golvet"},
+  {"key": "triceps_dips", "muscle": "TRICEPS", "gym_eq": "Triceps maskin", "reps": "5–8", "sets": "3", "tip": "Håll kroppen nära stolen, armbågarna rakt bak"},
+  {"key": "plank_rotation", "muscle": "CORE / OBLIQUES", "gym_eq": "Kabelrotation", "reps": "8–12", "sets": "4", "tip": "Kontrollerad rotation, spänn core hela rörelsen"},
+  {"key": "hanging_knee_raise", "muscle": "MAGE / HIP FLEX", "gym_eq": "Hanging leg raises", "reps": "8–12", "sets": "4", "tip": "Raka ben = svårare. Kontrollerat upp OCH ner"},
+  {"key": "russian_twist", "muscle": "OBLIQUES / MAGE", "gym_eq": "Kabelrotation", "reps": "8–12", "sets": "4", "tip": "Lyft fötterna från golvet för mer aktivering"},
+  {"key": "push_up", "muscle": "BRÖST + TRICEPS", "gym_eq": "Bröstmaskin / Bänkpress", "reps": "8–12", "sets": "3", "tip": "Slow eccentric 3 sek ner = dubbelt svårare"},
+  {"key": "pseudo_planche_push_up", "muscle": "BRÖST + AXLAR", "gym_eq": "Dips / cable flyes", "reps": "8–12", "sets": "3", "tip": "Händerna vid höfterna, luta kroppen framåt"},
+  {"key": "wide_push_up", "muscle": "YTTRE BRÖST", "gym_eq": "Cable flyes nedre", "reps": "8–12", "sets": "3", "tip": "Händerna bredare än axlar, armbågarna utåt"},
+  {"key": "inverted_row", "muscle": "RYGG + BICEPS", "gym_eq": "Sittande rodd", "reps": "2–5", "sets": "3", "tip": "Ligg under stabilt bord, kroppen rak, dra upp till bröstet"},
+  {"key": "pull_up", "muscle": "RYGG + BICEPS", "gym_eq": "Pulldown / Pull-ups", "reps": "5–8", "sets": "3", "tip": "Full ROM — helt utsträckta armar ner, haka över stången upp"},
+  {"key": "wide_pull_up", "muscle": "YTTRE RYGG", "gym_eq": "Wide grip pulldown", "reps": "5–8", "sets": "3", "tip": "Grepp bredare än axlar, dra till övre bröstet"},
+  {"key": "chin_up", "muscle": "BICEPS + RYGG", "gym_eq": "Underhandsgrepp pulldown", "reps": "5–8", "sets": "3", "tip": "Underhandsgrepp, fokusera på biceps-kontraktionen"},
+  {"key": "towel_row", "muscle": "RYGG + BICEPS", "gym_eq": "Rodd maskin", "reps": "5–8", "sets": "3", "tip": "Handduk runt dörrhandtag, luta bakåt, dra in mot magen"},
+  {"key": "lateral_raise", "muscle": "AXLAR / DELTOID", "gym_eq": "Lateral raise maskin", "reps": "6–10", "sets": "3", "tip": "Lätt böjda armar, lyft till axelhöjd, sänk kontrollerat"},
+  {"key": "face_pull", "muscle": "BAKRE DELTOID", "gym_eq": "Cable face pulls", "reps": "8–12", "sets": "3", "tip": "Handduk runt dörrhandtag i ögonhöjd, dra mot ansiktet"},
+  {"key": "hammer_curl", "muscle": "BICEPS + UNDERARM", "gym_eq": "Hammer curl maskin", "reps": "5–8", "sets": "3", "tip": "Neutralt grepp, kontrollerat ner, ingen svängning"},
+  {"key": "pistol_squat", "muscle": "QUAD + GLUTES", "gym_eq": "Benpress / Squat", "reps": "4–6", "sets": "3", "tip": "Håll i dörrpost för balans i början"},
+  {"key": "glute_bridge", "muscle": "GLUTES + HAMSTR", "gym_eq": "Hip thrusts", "reps": "8–12", "sets": "3", "tip": "Enkelbens glute bridge för mer aktivering"},
+  {"key": "single_leg_calf_raise", "muscle": "VADER", "gym_eq": "Vader stående", "reps": "5–8", "sets": "3", "tip": "En fot på trappsteg, full ROM upp och ner"},
+  {"key": "wall_sit", "muscle": "QUAD", "gym_eq": "Benpress isometrisk", "reps": "30–60s", "sets": "3", "tip": "90° i knät, rygg mot väggen, håll så länge du kan"},
+  {"key": "nordic_curl", "muscle": "HAMSTRINGS", "gym_eq": "Hamstring curl", "reps": "5–8", "sets": "3", "tip": "Knäla, fäst fötter under soffa, sänk kontrollerat"},
+  {"key": "squat", "muscle": "QUAD + GLUTES", "gym_eq": "Benpress / Squat", "reps": "8–12", "sets": "3", "tip": "Enkelbenssquat (pistol) för max svårighet"},
+  {"key": "calf_raise", "muscle": "VADER", "gym_eq": "Vader stående", "reps": "8–12", "sets": "3", "tip": "Båda fötter, explosivt upp, långsamt ner"},
+  {"key": "walking_lunge", "muscle": "QUAD + GLUTES", "gym_eq": "Utfallssteg", "reps": "8–12", "sets": "3", "tip": "20–50 meter walking lunges = bästa hemma-benet"},
+  {"key": "front_raise", "muscle": "FRÄMRE DELTOID", "gym_eq": "Front raise maskin", "reps": "8–12", "sets": "3", "tip": "Raka armar, lyft till axelhöjd, sänk kontrollerat"}
+];
 const HEALTHY_FOODS = [{"cat": "DAGLIGEN", "color": "var(--green)", "items": [{"food": "Bl\u00e5b\u00e4r 60\u2013100g", "why": "Antioxidanter, kognition, anti-inflammation"}, {"food": "Broccoli / blomk\u00e5l", "why": "Sulforaphane, detox, hormonst\u00f6d"}, {"food": "Vitl\u00f6k 50g", "why": "Immunf\u00f6rsvar, anti-inflammation, cardiovaskul\u00e4r"}, {"food": "Ingef\u00e4ra", "why": "Anti-inflammation, digestion, sm\u00e4rtlindring"}, {"food": "2x Kiwi", "why": "C-vitamin, s\u00f6mnkvalitet, magnesium"}, {"food": "Baby spenat", "why": "J\u00e4rn, folat, magnesium \u2014 kritisk f\u00f6r testosteron"}, {"food": "Fisk (4g Omega-3/dag)", "why": "DHA+EPA: hj\u00e4rna, inflammations\u00adkontroll"}, {"food": "Svart te morgon", "why": "L-theanin + koffein = fokus utan krasch"}, {"food": "R\u00f6tt te kv\u00e4ll", "why": "Antioxidanter, varvar ner CNS"}]}, {"cat": "PROTEIN & FETT", "color": "var(--accent2)", "items": [{"food": "F\u00e5gel, n\u00f6t, vilt", "why": "Magert komplett protein"}, {"food": "Avokado", "why": "Mono-om\u00e4ttat fett, K, folat"}, {"food": "Jordn\u00f6tssm\u00f6r", "why": "Protein + h\u00e4lsosamt fett, m\u00e4ttar"}, {"food": "Valn\u00f6tter", "why": "Omega-3 (ALA), hj\u00e4rnh\u00e4lsa"}, {"food": "M\u00f6rk choklad / kakao", "why": "Flavonoider, endorfiner, magnesium"}, {"food": "\u00c4gg", "why": "Komplett aminosyraprofil, kolin f\u00f6r hj\u00e4rnan"}]}, {"cat": "KOLHYDRATER & \u00d6VRIGT", "color": "var(--accent3)", "items": [{"food": "Potatis, quinoa, pasta, ris", "why": "Komplexa kolh, satiating"}, {"food": "Granat\u00e4pple 100g/dag", "why": "Punikagliner: testosteron +24% i studier"}, {"food": "Gurkmeja + svartpeppar", "why": "Curcumin + piperin: anti-inflammation 20x"}, {"food": "Kokosolja", "why": "MCT-fett: direkt energi till hj\u00e4rnan"}, {"food": "Honung", "why": "Pre-workout quick carbs, antimikrobiell"}, {"food": "Bj\u00f6rnb\u00e4r / r\u00f6da b\u00e4r", "why": "Antocyaniner, insulin-sensitivitet"}, {"food": "R\u00f6dvin (m\u00e5ttligt)", "why": "Resveratrol: cardiovaskul\u00e4r, anti-aging"}]}];
 
 const GYM_SCHEMA = {
