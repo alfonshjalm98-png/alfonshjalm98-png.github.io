@@ -40,7 +40,36 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyAsX_vERpi5Ng53J8gk5_ltrA6uUKSEyDM",
+    authDomain: "alfons-os.firebaseapp.com",
+    projectId: "alfons-os",
+    storageBucket: "alfons-os.firebasestorage.app",
+    messagingSenderId: "778051392580",
+    appId: "1:778051392580:web:4004d192020cec732bd811"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Spara data
+  window.sparaData = async function(samling, id, data) {
+    await setDoc(doc(db, samling, id), data);
+    console.log("Sparat!");
+  };
+
+  // Hämta data
+  window.hamtaData = async function(samling, id) {
+    const snap = await getDoc(doc(db, samling, id));
+    if (snap.exists()) return snap.data();
+    return null;
+  };
+</script>
   body {
     background: var(--bg);
     color: var(--text);
