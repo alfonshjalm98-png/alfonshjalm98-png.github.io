@@ -1131,10 +1131,9 @@
   </div>
 </div>
 
-<script>
-(function(){
+</script>
 
-  <!-- =========== KALENDER =========== -->
+<!-- =========== KALENDER =========== -->
 <div id="panel-kalender" class="panel">
   <div class="main">
     <div style="display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start;">
@@ -2744,15 +2743,16 @@ function init() {
 
 function renderClock() {
   const now = new Date();
- document.getElementById('liveClock').textContent = ...
-   const dateEl = document.getElementById('liveDate');
-if(dateEl) {
-  const dagNamnFull = ['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'];
-  dateEl.textContent = now.toLocaleDateString('sv-SE',{day:'2-digit',month:'2-digit',year:'numeric'}) + ' · ' + dagNamnFull[now.getDay()];
-}
+document.getElementById('liveClock').textContent =
     String(now.getHours()).padStart(2,'0') + ':' +
     String(now.getMinutes()).padStart(2,'0') + ':' +
     String(now.getSeconds()).padStart(2,'0');
+
+  const dateEl = document.getElementById('liveDate');
+  if(dateEl) {
+    const dagNamnFull = ['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'];
+    dateEl.textContent = now.toLocaleDateString('sv-SE',{day:'2-digit',month:'2-digit',year:'numeric'}) + ' · ' + dagNamnFull[now.getDay()];
+  }
   
   const todosEl = document.getElementById('liveTodos');
   if(todosEl) {
