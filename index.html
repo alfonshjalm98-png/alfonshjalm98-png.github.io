@@ -1039,6 +1039,12 @@
       </div>
     </div>
 
+    <!-- TRADING CHECKLIST -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-title">TRADING CHECKLIST</div>
+      <div id="tradingChecklist"></div>
+    </div>
+
     <!-- RAD 4: DAGENS SCHEMA + KALORIMÅL -->
     <div class="grid-2" style="margin-bottom:16px;">
       <div class="card blue">
@@ -2880,16 +2886,18 @@ function renderTradingChecks() {
     </div>`
   ).join('');
 
-  // Trading checklist for today panel
+// Trading checklist for today panel
   const todayChecks = preSession.slice(0,4);
-  document.getElementById('tradingChecklist').innerHTML = todayChecks.map((item,i) =>
-    `<div class="checklist-item" onclick="toggleCheck(this)">
-      <div class="check-box">✓</div>
-      <div class="check-text">${item}</div>
-    </div>`
-  ).join('');
-  document.querySelectorAll('#tradingChecklist .check-box').forEach(c => c.classList.remove('checked'));
-}
+  const tradingChecklist = document.getElementById('tradingChecklist');
+  if(tradingChecklist) {
+    tradingChecklist.innerHTML = todayChecks.map((item,i) =>
+      `<div class="checklist-item" onclick="toggleCheck(this)">
+        <div class="check-box">✓</div>
+        <div class="check-text">${item}</div>
+      </div>`
+    ).join('');
+    document.querySelectorAll('#tradingChecklist .check-box').forEach(c => c.classList.remove('checked'));
+  }
 
 function toggleCheck(row) {
   const box = row.querySelector('.check-box');
