@@ -1277,13 +1277,13 @@
   var newsCountdown = 5;
   var newsCountTimer = null;
 
- var newsSources = [
+var newsSources = [
     'https://corsproxy.io/?https://feeds.content.dowjones.io/public/rss/mw_topstories',
     'https://corsproxy.io/?https://www.forexlive.com/feed/news',
     'https://corsproxy.io/?https://feeds.bbci.co.uk/news/business/rss.xml'
   ];
 
- function fetchSource(url){
+function fetchSource(url){
     return fetch(url).then(function(r){ return r.text(); }).then(function(text){
       var parser = new DOMParser();
       var xml = parser.parseFromString(text, 'text/xml');
@@ -1320,35 +1320,15 @@
     });
   };
 
-  function rankNewsWithAI(items, statusEl){
-    var headlines = items.slice(0,25).map(function(n,i){ return (i+1)+'. '+n.title; }).join('\n');
-    var prompt = 'You are a professional futures trader. Below are financial news headlines. Select the 5 that would have the HIGHEST immediate market impact on ES (S&P500) and NQ (Nasdaq) futures right now. Consider: Fed/FOMC decisions, CPI/inflation data, NFP/jobs data, GDP, earnings surprises, geopolitical shocks, rate decisions, major index moves. Reply ONLY with a JSON array of the numbers (1-based index) of the top 5, ordered by impact descending. Example: [3,1,7,12,20]. No other text.\n\nHeadlines:\n'+headlines;
-    fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:100, messages:[{role:'user',content:prompt}] })
-    }).then(function(r){ return r.json(); }).then(function(data){
-      var text = data.content&&data.content[0]&&data.content[0].text||'[]';
-      text = text.replace(/```[^`]*```/g,'').trim();
-      var indices; try{ indices=JSON.parse(text); }catch(e){ indices=[1,2,3,4,5]; }
-      if(!Array.isArray(indices)||indices.length===0) indices=[1,2,3,4,5];
-      var ranked = indices.map(function(i){ return items[i-1]; }).filter(Boolean);
-      if(ranked.length < 5){ items.forEach(function(n){ if(ranked.length>=5) return; if(ranked.indexOf(n)===-1) ranked.push(n); }); }
-      newsItems = ranked.slice(0,5);
-      newsIdx = 0;
-      if(statusEl) statusEl.textContent = 'AI-RANKED '+new Date().toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'});
-      renderSpotlight();
-      startNewsTimer();
-    }).catch(function(){
-      var keywords=['fed','fomc','cpi','nfp','gdp','rate','inflation','jobs','payroll','ecb','bank','recession','earnings','crash','rally','spike','surge','plunge','cut','hike','war','tariff','sanction'];
-      var scored = items.map(function(n){ var t=n.title.toLowerCase(); return {n:n,score:keywords.reduce(function(a,k){ return a+(t.indexOf(k)>=0?1:0); },0)}; });
-      scored.sort(function(a,b){ return b.score-a.score; });
-      newsItems = scored.slice(0,5).map(function(s){ return s.n; });
-      newsIdx = 0;
-      if(statusEl) statusEl.textContent = 'RANKED '+new Date().toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'});
-      renderSpotlight();
-      startNewsTimer();
-    });
+ function rankNewsWithAI(items, statusEl){
+    var keywords=['fed','fomc','cpi','nfp','gdp','rate','inflation','jobs','payroll','ecb','bank','recession','earnings','crash','rally','spike','surge','plunge','cut','hike','war','tariff','sanction'];
+    var scored = items.map(function(n){ var t=n.title.toLowerCase(); return {n:n,score:keywords.reduce(function(a,k){ return a+(t.indexOf(k)>=0?1:0); },0)}; });
+    scored.sort(function(a,b){ return b.score-a.score; });
+    newsItems = scored.slice(0,5).map(function(s){ return s.n; });
+    newsIdx = 0;
+    if(statusEl) statusEl.textContent = 'RANKED '+new Date().toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'});
+    renderSpotlight();
+    startNewsTimer();
   }
 
   function renderSpotlight(){
@@ -1378,12 +1358,10 @@
         +'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;padding:2px 7px;background:'+bg+';color:'+color+';border:1px solid '+bord+';letter-spacing:1px;">#'+(newsIdx+1)+'</span>'
         +'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:var(--muted);">'+src+'</span>'
         +'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:var(--muted);">'+dag+' '+tid+'</span>'
-        +'<span id="newsTimerBar" style="margin-left:auto;font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:var(--muted);">5s</span>'
+      +'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:var(--muted);">'+dag+' '+tid+'</span>'
         +'</div>'
         +'<div style="font-family:\'Bebas Neue\',cursive;font-size:22px;color:var(--text);line-height:1.25;letter-spacing:0.5px;">'+n.title+'</div>'
-        +'<div style="margin-top:10px;height:2px;background:var(--border);border-radius:1px;overflow:hidden;">'
-        +'<div id="newsProgressBar" style="height:100%;background:'+color+';width:100%;transition:width 5s linear;border-radius:1px;"></div>'
-        +'</div></a>';
++'</a>';
       spotEl.style.opacity='1';
       setTimeout(function(){ var bar=document.getElementById('newsProgressBar'); if(bar) bar.style.width='0%'; },50);
     },300);
@@ -1397,14 +1375,14 @@
   function startNewsTimer(){
     clearInterval(newsCountTimer);
     if(newsPaused) return;
-    newsCountdown = 5;
+    newsCountdown = 30;
     newsCountTimer = setInterval(function(){
       if(newsPaused) return;
       newsCountdown--;
-      var el = document.getElementById('newsTimerBar');
+ var el = document.getElementById('newsTimerBar');
       if(el) el.textContent = newsCountdown+'s';
       if(newsCountdown <= 0){
-        newsCountdown = 5;
+        newsCountdown = 30;
         newsIdx = (newsIdx+1) % newsItems.length;
         renderSpotlight();
       }
