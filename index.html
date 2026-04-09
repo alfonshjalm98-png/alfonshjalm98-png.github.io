@@ -1277,17 +1277,25 @@
   var newsCountdown = 5;
   var newsCountTimer = null;
 
-  var newsSources = [
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.forexlive.com%2Ffeed%2Fnews&count=15',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.marketwatch.com%2Frss%2Ftopstories&count=15',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.bbci.co.uk%2Fnews%2Fbusiness%2Frss.xml&count=15'
+ var newsSources = [
+    'https://corsproxy.io/?https://feeds.content.dowjones.io/public/rss/mw_topstories',
+    'https://corsproxy.io/?https://www.forexlive.com/feed/news',
+    'https://corsproxy.io/?https://feeds.bbci.co.uk/news/business/rss.xml'
   ];
 
-  function fetchSource(url){
-    return fetch(url).then(function(r){ return r.json(); }).then(function(d){
-      if(!d.items||d.items.length===0) return [];
-      return d.items.map(function(item){
-        return { title:(item.title||'').replace(/<[^>]+>/g,'').trim(), link:item.link||'', date:item.pubDate||'', source:(d.feed&&d.feed.title)||'News' };
+ function fetchSource(url){
+    return fetch(url).then(function(r){ return r.text(); }).then(function(text){
+      var parser = new DOMParser();
+      var xml = parser.parseFromString(text, 'text/xml');
+      var items = Array.from(xml.querySelectorAll('item'));
+      var feedTitle = (xml.querySelector('channel > title')||{}).textContent || 'News';
+      return items.map(function(item){
+        return {
+          title: (item.querySelector('title')||{}).textContent||'',
+          link:  (item.querySelector('link')||{}).textContent||'',
+          date:  (item.querySelector('pubDate')||{}).textContent||'',
+          source: feedTitle
+        };
       });
     }).catch(function(){ return []; });
   }
