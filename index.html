@@ -20,10 +20,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ALFONS OS">
+<meta name="apple-mobile-web-app-title" content="Zimple Life">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ALFONS OS</title>
+<title>Zimple Life</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -920,9 +920,13 @@
 </script>
 <div class="header">
   <div>
-    <div class="logo">ALFONS OS <span>v1.1</span></div>
+<div class="logo">ZIMPLE LIFE <span>v1.1</span></div>
   </div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;">
   <div class="live-time" id="liveClock">00:00:00</div>
+  <div id="liveDate" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;text-align:right;"></div>
+<div id="liveTodos" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--green);letter-spacing:0.5px;text-align:right;max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+  </div>
   <div style="display:flex;gap:8px;align-items:center;">
       <button id="installBtn" onclick="installApp()" style="display:none;padding:6px 12px;background:none;border:1px solid var(--accent);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;">⬇ INSTALLERA</button>
       <div class="phase-badge" id="phaseBadge">DIET</div>
@@ -931,6 +935,7 @@
 
 <div class="tabs">
   <button class="tab active" onclick="switchTab('today')">IDAG</button>
+  <button class="tab" onclick="switchTab('kalender')">KALENDER</button>
   <button class="tab" onclick="switchTab('kost')">KOST</button>
   <button class="tab" onclick="switchTab('traning')">TRÄNING</button>
   <button class="tab" onclick="switchTab('trading')">TRADING</button>
@@ -955,8 +960,8 @@
 <div id="panel-today" class="panel active">
   <div class="main">
 
-    <!-- MANTRA — roterar var 10s -->
-    <div class="motivation-block" onclick="newMotivation()" style="cursor:pointer;position:relative;">
+    <!-- RAD 1: MANTRA -->
+    <div class="motivation-block" onclick="newMotivation()" style="cursor:pointer;position:relative;margin-bottom:16px;">
       <div class="motivation-text" id="dailyMotivation">ABDIEL TITTAR PÅ VEM DU BLIR. BYGG DET.</div>
       <div class="motivation-sub">// DAGENS MANTRA — klicka för ny &nbsp;<span id="mantraCountdown" style="font-size:9px;opacity:0.5;">10s</span></div>
       <button onclick="event.stopPropagation();newMotivation()" style="position:absolute;top:16px;right:16px;background:none;border:1px solid var(--accent);color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:10px;padding:4px 10px;cursor:pointer;letter-spacing:1px;">↻ NY</button>
@@ -968,17 +973,40 @@
       <button onclick="document.getElementById('sundayReminder').style.display='none'" style="float:right;background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;">✕</button>
     </div>
 
-    <div class="grid-2" style="margin-bottom:20px;">
+    <!-- RAD 2: MARKET NEWS -->
+    <div class="card" style="margin-bottom:16px;" id="newsCard">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="card-title" style="margin:0;">MARKET NEWS</div>
+          <div id="newsImpactBadge" style="display:none;font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 8px;letter-spacing:1px;background:rgba(226,75,74,0.15);color:#E24B4A;border:1px solid rgba(226,75,74,0.3);">HIGH IMPACT</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div id="newsStatus" style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;">LADDAR...</div>
+          <button onclick="loadNews()" style="background:none;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:9px;padding:3px 8px;cursor:pointer;letter-spacing:1px;">↻</button>
+        </div>
+      </div>
+      <div id="newsSpotlight" style="min-height:110px;position:relative;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);padding:20px 0;text-align:center;">HÄMTAR NYHETER...</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
+        <div style="display:flex;gap:8px;">
+          <button onclick="newsPrev()" style="background:none;border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:4px 12px;cursor:pointer;">◀</button>
+          <button onclick="newsNext()" style="background:none;border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:4px 12px;cursor:pointer;">▶</button>
+        </div>
+        <div id="newsDots" style="display:flex;gap:5px;align-items:center;"></div>
+        <button onclick="newsTogglePause()" id="newsPauseBtn" style="background:none;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:9px;padding:4px 10px;cursor:pointer;letter-spacing:1px;">⏸ PAUSA</button>
+      </div>
+    </div>
+
+    <!-- RAD 3: DAGENS STATUS + VECKOVY -->
+    <div class="grid-2" style="margin-bottom:16px;">
       <div class="card">
         <div class="card-title">Dagens status</div>
-
-        <!-- Träningsdag display -->
         <div id="todayWorkoutDisplay" style="background:var(--surface2);border-left:3px solid var(--accent3);padding:10px 14px;margin-bottom:14px;">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:4px;">TRÄNING IDAG</div>
           <div id="todayWorkoutName" style="font-family:'Bebas Neue',cursive;font-size:22px;color:var(--accent3);letter-spacing:1px;">LÄSER SCHEMA...</div>
           <div id="todayWorkoutDetail" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px;"></div>
         </div>
-
         <div class="toggle-row">
           <div>
             <div class="mini-label">Typ av dag</div>
@@ -1005,31 +1033,45 @@
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-title">VECKOVY</div>
+        <div id="weekOverview" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;"></div>
+      </div>
+    </div>
+
+    <!-- RAD 4: DAGENS SCHEMA + KALORIMÅL -->
+    <div class="grid-2" style="margin-bottom:16px;">
+      <div class="card blue">
+        <div class="card-title">Dagens schema</div>
+        <div id="scheduleList"></div>
+      </div>
+
       <div class="card green">
         <div class="card-title">Kalorimål idag</div>
         <div class="macro-grid">
           <div class="macro-item">
-            <div class="macro-value" id="calGoal">2050</div>
+            <div class="macro-value" id="calGoal">—</div>
             <div class="macro-label">kcal</div>
           </div>
           <div class="macro-item">
-            <div class="macro-value" id="protGoal">165</div>
+            <div class="macro-value" id="protGoal">—</div>
             <div class="macro-label">protein <span class="macro-unit">g</span></div>
           </div>
           <div class="macro-item">
-            <div class="macro-value" id="carbGoal">165</div>
+            <div class="macro-value" id="carbGoal">—</div>
             <div class="macro-label">kolh <span class="macro-unit">g</span></div>
           </div>
           <div class="macro-item">
-            <div class="macro-value" id="fatGoal">65</div>
+            <div class="macro-value" id="fatGoal">—</div>
             <div class="macro-label">fett <span class="macro-unit">g</span></div>
           </div>
         </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:8px;font-family:'IBM Plex Mono',monospace;" id="calGoalNote">Fyll i din statistik i kalkylatorn nedan så uppdateras detta automatiskt.</div>
       </div>
     </div>
 
-    <!-- PRE-TRÄNING MINDSET -->
-    <div id="preWorkoutReminder" style="display:none;margin-bottom:20px;">
+    <!-- PRE-TRÄNING MINDSET (dold tills träningsdag) -->
+    <div id="preWorkoutReminder" style="display:none;margin-bottom:16px;">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:8px;">PRE-TRÄNING MINDSET</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
         <div style="background:var(--surface2);border-left:2px solid var(--accent3);padding:8px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text);">✓ Värm upp 5 min innan</div>
@@ -1040,60 +1082,9 @@
       </div>
     </div>
 
-    <!-- VECKOVY -->
-    <div class="card" style="margin-bottom:20px;">
-      <div class="card-title">VECKOVY</div>
-      <div id="weekOverview" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;"></div>
-    </div>
-
-    <!-- MARKET NEWS SPOTLIGHT -->
-    <div class="card" style="margin-bottom:20px;" id="newsCard">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="card-title" style="margin:0;">MARKET NEWS</div>
-          <div id="newsImpactBadge" style="display:none;font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 8px;letter-spacing:1px;background:rgba(226,75,74,0.15);color:#E24B4A;border:1px solid rgba(226,75,74,0.3);">HIGH IMPACT</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <div id="newsStatus" style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;">LADDAR...</div>
-          <button onclick="loadNews()" style="background:none;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:9px;padding:3px 8px;cursor:pointer;letter-spacing:1px;">↻</button>
-        </div>
-      </div>
-      <div id="newsSpotlight" style="min-height:110px;position:relative;">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);padding:20px 0;text-align:center;">HÄMTAR NYHETER...</div>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
-        <div style="display:flex;gap:8px;">
-          <button onclick="newsPrev()" style="background:none;border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:4px 12px;cursor:pointer;">◀</button>
-          <button onclick="newsNext()" style="background:none;border:1px solid var(--border);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:4px 12px;cursor:pointer;">▶</button>
-        </div>
-        <div id="newsDots" style="display:flex;gap:5px;align-items:center;"></div>
-        <button onclick="newsTogglePause()" id="newsPauseBtn" style="background:none;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:9px;padding:4px 10px;cursor:pointer;letter-spacing:1px;">⏸ PAUSA</button>
-      </div>
-    </div>
-
-    <div class="grid-2">
-      <div class="card blue">
-        <div class="card-title">Dagens schema</div>
-        <div id="scheduleList"></div>
-      </div>
-
-      <div>
-        <div class="card" style="margin-bottom:16px;">
-          <div class="card-title">Trading checklist</div>
-          <div id="tradingChecklist"></div>
-        </div>
-        <div class="card red">
-          <div class="card-title">Nästa händelse</div>
-          <div id="nextEvent" style="font-family:'Bebas Neue',cursive;font-size:28px;color:var(--accent);"></div>
-          <div id="nextEventTime" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);margin-top:4px;"></div>
-          <div id="countdown" style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--accent3);margin-top:6px;"></div>
-        </div>
-      </div>
-    </div>
-
     <!-- KALORIKALKYLATOR -->
-    <div class="card" style="margin-top:20px;">
-      <div class="card-title">KALORIKALKYLATOR</div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-title">KALORIKALKYLATOR — fyll i din statistik</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
         <div><div class="mini-label">VIKT (KG)</div><input type="number" id="kk-vikt" placeholder="80" min="40" max="200" step="0.5" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"></div>
         <div><div class="mini-label">LÄNGD (CM)</div><input type="number" id="kk-langd" placeholder="180" min="140" max="220" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"></div>
@@ -1112,7 +1103,7 @@
     </div>
 
     <!-- PROGRESS GRAF -->
-    <div class="card" style="margin-top:16px;">
+    <div class="card" style="margin-bottom:16px;">
       <div class="card-title">PROGRESS — VIKT / KROPPSFETT / BMI</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
         <div><div class="mini-label">LÄNGD (CM)</div><input type="number" id="pg-langd" placeholder="180" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;"></div>
@@ -1137,9 +1128,60 @@
   </div>
 </div>
 
+  </div>
+</div>
+
 <script>
 (function(){
 
+  <!-- =========== KALENDER =========== -->
+<div id="panel-kalender" class="panel">
+  <div class="main">
+    <div style="display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start;">
+
+      <!-- MÅNADSKALENDER -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <button onclick="kalPrevMonth()" style="background:none;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:14px;padding:4px 12px;cursor:pointer;">◀</button>
+          <div id="kalMonthLabel" style="font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:2px;color:var(--accent);"></div>
+          <button onclick="kalNextMonth()" style="background:none;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:14px;padding:4px 12px;cursor:pointer;">▶</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-align:center;padding:4px;">MÅN</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-align:center;padding:4px;">TIS</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-align:center;padding:4px;">ONS</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-align:center;padding:4px;">TOR</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-align:center;padding:4px;">FRE</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-align:center;padding:4px;">LÖR</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-align:center;padding:4px;">SÖN</div>
+        </div>
+        <div id="kalGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;"></div>
+        <button onclick="kalGoToday()" style="margin-top:12px;width:100%;background:none;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:10px;padding:6px;cursor:pointer;letter-spacing:1px;">HOPPA TILL IDAG</button>
+      </div>
+
+      <!-- DAGVY: anteckningar för vald dag -->
+      <div>
+        <div class="card" style="margin-bottom:16px;">
+          <div id="kalDayTitle" style="font-family:'Bebas Neue',cursive;font-size:28px;color:var(--accent);letter-spacing:2px;margin-bottom:4px;"></div>
+          <div id="kalDayTodos" style="margin-bottom:12px;"></div>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="kalNewTodo" placeholder="Lägg till händelse / uppgift..." onkeydown="if(event.key==='Enter')kalAddTodo()"
+              style="flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:9px 12px;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;">
+            <button onclick="kalAddTodo()" style="padding:9px 16px;background:var(--accent);border:none;color:#000;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;font-weight:700;">+</button>
+          </div>
+        </div>
+
+        <!-- KOMMANDE HÄNDELSER -->
+        <div class="card">
+          <div class="card-title">KOMMANDE HÄNDELSER</div>
+          <div id="kalUpcoming" style="max-height:400px;overflow-y:auto;"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+  
   // ── 1. MANTRA AUTO-ROTATION ─────────────────────────────────────────
   var motivations = [
     "ABDIEL TITTAR PÅ VEM DU BLIR. BYGG DET.",
@@ -1232,9 +1274,9 @@
   var newsCountTimer = null;
 
   var newsSources = [
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.forexlive.com%2Ffeed%2F&count=15',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.dailyfx.com%2Ffeeds%2Fall&count=15',
-    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.bbci.co.uk%2Fnews%2Fbusiness%2Frss.xml&count=15'
+    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.reuters.com%2Freutersedge&count=15',
+    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.investing.com%2Frss%2Fnews.rss&count=15',
+    'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffinance.yahoo.com%2Frss%2Ftopfinstories&count=15'
   ];
 
   function fetchSource(url){
@@ -2702,10 +2744,23 @@ function init() {
 
 function renderClock() {
   const now = new Date();
-  document.getElementById('liveClock').textContent =
+ document.getElementById('liveClock').textContent = ...
+   const dateEl = document.getElementById('liveDate');
+if(dateEl) {
+  const dagNamnFull = ['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'];
+  dateEl.textContent = now.toLocaleDateString('sv-SE',{day:'2-digit',month:'2-digit',year:'numeric'}) + ' · ' + dagNamnFull[now.getDay()];
+}
     String(now.getHours()).padStart(2,'0') + ':' +
     String(now.getMinutes()).padStart(2,'0') + ':' +
     String(now.getSeconds()).padStart(2,'0');
+  
+  const todosEl = document.getElementById('liveTodos');
+  if(todosEl) {
+    const todayKey = now.toISOString().slice(0,10);
+    const stored = JSON.parse(localStorage.getItem('zimple_kalender') || '{}');
+    const todos = (stored[todayKey] || []).filter(t => !t.done);
+    todosEl.textContent = todos.length > 0 ? '● ' + todos.map(t => t.text).join(' · ') : '';
+  }
 }
 
 // ============ TABS ============
@@ -4454,6 +4509,158 @@ function saveMeals() {
   showStatus('✓ MÅLTIDER SPARADE');
 }
 
+  // ============ KALENDER ============
+var kalYear = new Date().getFullYear();
+var kalMonth = new Date().getMonth();
+var kalSelected = new Date().toISOString().slice(0,10);
+var kalData = JSON.parse(localStorage.getItem('zimple_kalender') || '{}');
+
+function kalSave() { localStorage.setItem('zimple_kalender', JSON.stringify(kalData)); }
+
+function kalKey(y,m,d) { return y+'-'+(String(m+1).padStart(2,'0'))+'-'+(String(d).padStart(2,'0')); }
+
+function kalRender() {
+  var months = ['JANUARI','FEBRUARI','MARS','APRIL','MAJ','JUNI','JULI','AUGUSTI','SEPTEMBER','OKTOBER','NOVEMBER','DECEMBER'];
+  var label = document.getElementById('kalMonthLabel');
+  if(label) label.textContent = months[kalMonth] + ' ' + kalYear;
+
+  var grid = document.getElementById('kalGrid');
+  if(!grid) return;
+
+  var firstDay = new Date(kalYear, kalMonth, 1).getDay(); // 0=sun
+  var startOffset = (firstDay === 0) ? 6 : firstDay - 1; // Mon=0
+  var daysInMonth = new Date(kalYear, kalMonth+1, 0).getDate();
+  var today = new Date().toISOString().slice(0,10);
+
+  var html = '';
+  for(var i=0; i<startOffset; i++) html += '<div></div>';
+  for(var d=1; d<=daysInMonth; d++) {
+    var key = kalKey(kalYear, kalMonth, d);
+    var isToday = key === today;
+    var isSelected = key === kalSelected;
+    var hasTodos = kalData[key] && kalData[key].length > 0;
+    var bg = isSelected ? 'var(--accent)' : isToday ? 'rgba(74,158,255,0.15)' : 'var(--surface2)';
+    var color = isSelected ? '#000' : isToday ? 'var(--accent)' : 'var(--text)';
+    var border = isSelected ? 'var(--accent)' : isToday ? 'var(--accent)' : 'var(--border)';
+    html += '<div onclick="kalSelectDay(\''+key+'\')" style="cursor:pointer;padding:6px 2px;text-align:center;background:'+bg+';border:1px solid '+border+';border-radius:2px;position:relative;">'
+      + '<span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:'+color+';">'+d+'</span>'
+      + (hasTodos ? '<div style="width:4px;height:4px;border-radius:50%;background:'+(isSelected?'#000':'var(--accent)')+';margin:1px auto 0;"></div>' : '<div style="height:5px;"></div>')
+      + '</div>';
+  }
+  grid.innerHTML = html;
+  kalRenderDay();
+  kalRenderUpcoming();
+}
+
+function kalSelectDay(key) {
+  kalSelected = key;
+  kalRender();
+}
+
+function kalRenderDay() {
+  var titleEl = document.getElementById('kalDayTitle');
+  var todosEl = document.getElementById('kalDayTodos');
+  if(!titleEl || !todosEl) return;
+
+  var d = new Date(kalSelected + 'T12:00:00');
+  var dagNamnFull = ['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'];
+  titleEl.textContent = dagNamnFull[d.getDay()] + ' ' + d.toLocaleDateString('sv-SE',{day:'2-digit',month:'long',year:'numeric'});
+
+  var todos = kalData[kalSelected] || [];
+  if(todos.length === 0) {
+    todosEl.innerHTML = '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);padding:8px 0;">Inga händelser inlagda.</div>';
+    return;
+  }
+  todosEl.innerHTML = todos.map(function(t, i) {
+    return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">'
+      + '<div onclick="kalToggle('+i+')" style="width:16px;height:16px;border:1px solid '+(t.done?'var(--accent)':'var(--muted)')+';background:'+(t.done?'var(--accent)':'none')+';cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;">'+(t.done?'✓':'')+'</div>'
+      + '<span style="flex:1;font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:'+(t.done?'var(--muted)':'var(--text)')+';text-decoration:'+(t.done?'line-through':'none')+';">'+t.text+'</span>'
+      + '<button onclick="kalDelete('+i+')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:2px 6px;">✕</button>'
+      + '</div>';
+  }).join('');
+}
+
+function kalRenderUpcoming() {
+  var el = document.getElementById('kalUpcoming');
+  if(!el) return;
+  var today = new Date().toISOString().slice(0,10);
+  var entries = [];
+  Object.keys(kalData).forEach(function(key) {
+    if(key >= today && kalData[key] && kalData[key].length > 0) {
+      kalData[key].forEach(function(t) {
+        if(!t.done) entries.push({ key: key, text: t.text });
+      });
+    }
+  });
+  entries.sort(function(a,b){ return a.key.localeCompare(b.key); });
+  entries = entries.slice(0,20);
+  if(entries.length === 0) {
+    el.innerHTML = '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);padding:8px 0;">Inga kommande händelser.</div>';
+    return;
+  }
+  el.innerHTML = entries.map(function(e) {
+    var d = new Date(e.key+'T12:00:00');
+    var dagNamnFull = ['Sön','Mån','Tis','Ons','Tor','Fre','Lör'];
+    var label = dagNamnFull[d.getDay()] + ' ' + d.toLocaleDateString('sv-SE',{day:'2-digit',month:'short'});
+    return '<div onclick="kalSelectDay(\''+e.key+'\')" style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;">'
+      + '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:var(--accent);min-width:70px;">'+label+'</div>'
+      + '<div style="font-size:12px;color:var(--text);">'+e.text+'</div>'
+      + '</div>';
+  }).join('');
+}
+
+window.kalAddTodo = function() {
+  var inp = document.getElementById('kalNewTodo');
+  if(!inp || !inp.value.trim()) return;
+  if(!kalData[kalSelected]) kalData[kalSelected] = [];
+  kalData[kalSelected].push({ text: inp.value.trim(), done: false });
+  inp.value = '';
+  kalSave();
+  kalRender();
+};
+
+window.kalToggle = function(i) {
+  if(!kalData[kalSelected]) return;
+  kalData[kalSelected][i].done = !kalData[kalSelected][i].done;
+  kalSave();
+  kalRenderDay();
+  kalRenderUpcoming();
+};
+
+window.kalDelete = function(i) {
+  if(!kalData[kalSelected]) return;
+  kalData[kalSelected].splice(i, 1);
+  kalSave();
+  kalRender();
+};
+
+window.kalPrevMonth = function() {
+  kalMonth--;
+  if(kalMonth < 0) { kalMonth = 11; kalYear--; }
+  kalRender();
+};
+
+window.kalNextMonth = function() {
+  kalMonth++;
+  if(kalMonth > 11) { kalMonth = 0; kalYear++; }
+  kalRender();
+};
+
+window.kalGoToday = function() {
+  var now = new Date();
+  kalYear = now.getFullYear();
+  kalMonth = now.getMonth();
+  kalSelected = now.toISOString().slice(0,10);
+  kalRender();
+};
+
+// Init kalender när fliken öppnas
+const _origSwitchKal = window.switchTab;
+window.switchTab = function(name) {
+  _origSwitchKal.call(this, name);
+  if(name === 'kalender') kalRender();
+};
+  
 // ---- ALARMS EDITOR ----
 function renderAlarmsEditor() {
   document.getElementById('alarmsEditor').innerHTML = alarms.map((a, i) =>
