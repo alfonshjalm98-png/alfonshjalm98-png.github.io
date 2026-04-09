@@ -2938,10 +2938,12 @@ function updateNextEvent() {
   const diff = timeToMins(next.time) - nowMins;
   const diffH = Math.floor(diff/60);
   const diffM = diff % 60;
-  document.getElementById('nextEvent').textContent = next.label;
-  document.getElementById('nextEventTime').textContent = 'Kl ' + next.time + ' — ' + next.detail;
-  document.getElementById('countdown').textContent =
-    diff > 0 ? `Om ${diffH > 0 ? diffH + 'h ' : ''}${diffM}min` : 'NU';
+const ne = document.getElementById('nextEvent');
+  const net = document.getElementById('nextEventTime');
+  const cd = document.getElementById('countdown');
+  if (ne) ne.textContent = next.label;
+  if (net) net.textContent = 'Kl ' + next.time + ' — ' + next.detail;
+  if (cd) cd.textContent = diff > 0 ? `Om ${diffH > 0 ? diffH + 'h ' : ''}${diffM}min` : 'NU';
 }
 
 // ============ ALARMS ============
