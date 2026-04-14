@@ -3869,10 +3869,12 @@ function saveFutureGoalEdit(gi, goi, newText) {
 
 // ============ RENDER HEMMA ============
 function renderHemma() {
-  // Exercise grid with images
   document.getElementById('homeExerciseGrid').innerHTML = HOME_EXERCISES.map(ex =>
     `<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden;">
-      <div style="width:100%;height:160px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:18px;color:var(--muted);text-align:center;padding:8px;letter-spacing:1px;">${ex.key.replace(/_/g,' ').toUpperCase()}</div>
+      <div class="ex-img-wrap" style="width:100%;height:160px;position:relative;background:var(--surface2);">
+        <div class="ex-img-fallback" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:18px;color:var(--muted);text-align:center;padding:8px;letter-spacing:1px;">${ex.key.replace(/_/g,' ').toUpperCase()}</div>
+        <img data-src="${EXERCISE_IMGS[ex.key] || ''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;">
+      </div>
       <div style="padding:12px;">
         <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:2px;margin-bottom:4px;">${ex.muscle}</div>
         <div style="font-size:13px;color:var(--text);font-weight:500;margin-bottom:4px;">${ex.key.replace(/_/g,' ').toUpperCase()}</div>
@@ -3885,6 +3887,18 @@ function renderHemma() {
       </div>
     </div>`
   ).join('');
+
+  document.querySelectorAll('#homeExerciseGrid img[data-src]').forEach(img => {
+    const src = img.getAttribute('data-src');
+    if (!src) return;
+    const testImg = new Image();
+    testImg.onload = function() {
+      img.src = src;
+      img.style.display = 'block';
+      img.closest('.ex-img-wrap').querySelector('.ex-img-fallback').style.display = 'none';
+    };
+    testImg.src = src;
+  });
 
   // Gym schema
   document.getElementById('gymSchemaGrid').innerHTML =
