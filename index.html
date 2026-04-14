@@ -1746,7 +1746,51 @@
     <div id="preCheckQuestions"></div>
 
 
-
+  <!-- DAGENS STATUS + VECKOVY -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-title">Dagens status</div>
+      <div id="weekOverview" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px;"></div>
+      <div id="todayWorkoutDisplay" style="background:var(--surface2);border-left:3px solid var(--accent3);padding:10px 14px;margin-bottom:14px;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:4px;">TRÄNING IDAG</div>
+        <div id="todayWorkoutName" style="font-family:'Bebas Neue',cursive;font-size:22px;color:var(--accent3);letter-spacing:1px;">LÄSER SCHEMA...</div>
+        <div id="todayWorkoutDetail" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px;"></div>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="mini-label">Typ av dag</div>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="dayTypeBtn" onclick="setDayType('train')">TRÄNING</button>
+            <button class="toggle-btn" onclick="setDayType('rest')">VILA</button>
+          </div>
+        </div>
+        <div>
+          <div class="mini-label">Fas</div>
+          <div class="toggle-group">
+            <button class="toggle-btn" onclick="setPhase('diet')">DIET</button>
+            <button class="toggle-btn active" id="phaseBtn" onclick="setPhase('bulk')">BULK</button>
+            <button class="toggle-btn" onclick="setPhase('trans')">ÖVERG.</button>
+          </div>
+        </div>
+      </div>
+      <div class="mini-label" style="margin-top:12px;">Träningsvecka</div>
+      <div class="week-dots">
+        <div class="week-dot active" onclick="setWeek(1)">V1</div>
+        <div class="week-dot" onclick="setWeek(2)">V2</div>
+        <div class="week-dot" onclick="setWeek(3)">V3</div>
+        <div class="week-dot" onclick="setWeek(4)">V4</div>
+      </div>
+      <div id="todayMacroBox" style="margin-top:14px;background:var(--surface2);border:1px solid var(--border);padding:12px 14px;display:none;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:10px;">KALORIMÅL IDAG</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+          <div style="text-align:center;"><div style="font-family:'Bebas Neue',cursive;font-size:26px;color:var(--accent);line-height:1;" id="todayKcalGoal">—</div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;">KCAL</div></div>
+          <div style="text-align:center;"><div style="font-family:'Bebas Neue',cursive;font-size:26px;color:var(--accent3);line-height:1;" id="todayProtGoal">—</div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;">PROTEIN g</div></div>
+          <div style="text-align:center;"><div style="font-family:'Bebas Neue',cursive;font-size:26px;color:var(--text);line-height:1;" id="todayKolhGoal">—</div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;">KOLH g</div></div>
+          <div style="text-align:center;"><div style="font-family:'Bebas Neue',cursive;font-size:26px;color:#BA7517;line-height:1;" id="todayFettGoal">—</div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;">FETT g</div></div>
+        </div>
+        <div id="todayMacroSource" style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:8px;text-align:center;"></div>
+      </div>
+      <div id="todayMacroEmpty" style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);padding:8px 0;">→ Fyll i kalkylen nedan för att se kalorimål här automatiskt.</div>
+    </div>   
   </div>
 </div>
 
@@ -1881,52 +1925,6 @@
         </div>
       </div>
     </div>
-
-  <!-- DAGENS STATUS + VECKOVY -->
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-title">Dagens status</div>
-      <div id="weekOverview" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px;"></div>
-      <div id="todayWorkoutDisplay" style="background:var(--surface2);border-left:3px solid var(--accent3);padding:10px 14px;margin-bottom:14px;">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:4px;">TRÄNING IDAG</div>
-        <div id="todayWorkoutName" style="font-family:'Bebas Neue',cursive;font-size:22px;color:var(--accent3);letter-spacing:1px;">LÄSER SCHEMA...</div>
-        <div id="todayWorkoutDetail" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px;"></div>
-      </div>
-      <div class="toggle-row">
-        <div>
-          <div class="mini-label">Typ av dag</div>
-          <div class="toggle-group">
-            <button class="toggle-btn active" id="dayTypeBtn" onclick="setDayType('train')">TRÄNING</button>
-            <button class="toggle-btn" onclick="setDayType('rest')">VILA</button>
-          </div>
-        </div>
-        <div>
-          <div class="mini-label">Fas</div>
-          <div class="toggle-group">
-            <button class="toggle-btn" onclick="setPhase('diet')">DIET</button>
-            <button class="toggle-btn active" id="phaseBtn" onclick="setPhase('bulk')">BULK</button>
-            <button class="toggle-btn" onclick="setPhase('trans')">ÖVERG.</button>
-          </div>
-        </div>
-      </div>
-      <div class="mini-label" style="margin-top:12px;">Träningsvecka</div>
-      <div class="week-dots">
-        <div class="week-dot active" onclick="setWeek(1)">V1</div>
-        <div class="week-dot" onclick="setWeek(2)">V2</div>
-        <div class="week-dot" onclick="setWeek(3)">V3</div>
-        <div class="week-dot" onclick="setWeek(4)">V4</div>
-      </div>
-      <div id="todayMacroBox" style="margin-top:14px;background:var(--surface2);border:1px solid var(--border);padding:12px 14px;display:none;">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:10px;">KALORIMÅL IDAG</div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
-          <div style="text-align:center;"><div style="font-family:'Bebas Neue',cursive;font-size:26px;color:var(--accent);line-height:1;" id="todayKcalGoal">—</div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;">KCAL</div></div>
-          <div style="text-align:center;"><div style="font-family:'Bebas Neue',cursive;font-size:26px;color:var(--accent3);line-height:1;" id="todayProtGoal">—</div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;">PROTEIN g</div></div>
-          <div style="text-align:center;"><div style="font-family:'Bebas Neue',cursive;font-size:26px;color:var(--text);line-height:1;" id="todayKolhGoal">—</div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;">KOLH g</div></div>
-          <div style="text-align:center;"><div style="font-family:'Bebas Neue',cursive;font-size:26px;color:#BA7517;line-height:1;" id="todayFettGoal">—</div><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;">FETT g</div></div>
-        </div>
-        <div id="todayMacroSource" style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:8px;text-align:center;"></div>
-      </div>
-      <div id="todayMacroEmpty" style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);padding:8px 0;">→ Fyll i kalkylen nedan för att se kalorimål här automatiskt.</div>
-    </div>   
   </div>
 </div>
 
