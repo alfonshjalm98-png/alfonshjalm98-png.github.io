@@ -3874,7 +3874,12 @@ function renderHemma() {
   // Exercise grid with images
   document.getElementById('homeExerciseGrid').innerHTML = HOME_EXERCISES.map(ex =>
     `<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden;">
-      <div style="width:100%;height:160px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:18px;color:var(--muted);text-align:center;padding:8px;letter-spacing:1px;">${ex.key.replace(/_/g,' ').toUpperCase()}</div>
+      <div style="width:100%;height:160px;background:var(--surface2);overflow:hidden;">
+  ${EXERCISE_IMGS[ex.key]
+    ? `<img src="${EXERCISE_IMGS[ex.key]}" alt="${ex.key}" style="width:100%;height:100%;object-fit:cover;">`
+    : `<div style="height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:18px;color:var(--muted);">${ex.key.replace(/_/g,' ').toUpperCase()}</div>`
+  }
+</div>
       <div style="padding:12px;">
         <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:2px;margin-bottom:4px;">${ex.muscle}</div>
         <div style="font-size:13px;color:var(--text);font-weight:500;margin-bottom:4px;">${ex.key.replace(/_/g,' ').toUpperCase()}</div>
